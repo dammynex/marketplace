@@ -5,7 +5,7 @@
 
 <?php include INC .'banner.php'; ?>
 
-<section class="dream-places page-section dream-places--layout-1">
+<section id="svg-bg" class="dream-places page-section dream-places--layout-1">
   <div class="container">
     <h2 class="page-section__title t-center">Popular Categories</h2>
     <p class="page-section__subtitle t-center c-boulder">All the pathos and irony of leaving one's youth behind</p>

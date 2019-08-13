@@ -25,7 +25,7 @@
       <div class="col-md-6 offset-md-3">
         <div class="progress">
           <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
+        </div>
 
         <form action="">
           
@@ -35,22 +35,28 @@
               <input type="text" class="form-control" id="businessName" placeholder="Business Name">
             </div>
             <div class="form-group">
+              <label for="cat">Choose Category</label>
+              <select class="custom-select" required>
+                <option value="Automobile repair">Automobile Repair</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="form-group">
               <label for="WhatIdo">What do you do?</label>
               <input type="text" class="form-control" id="WhatIdo" placeholder="Sells UK used phones">
             </div>
             <div class="form-group">
-              <label for="merchEmail">Email</label>
-              <input type="email" class="form-control" id="merchEmail" aria-describedby="emailHelp" placeholder="Enter email">
+              <label for="artEmail">Business Email</label>
+              <input type="email" class="form-control" id="artEmail" aria-describedby="emailHelp" placeholder="Enter email">
               
             </div>
             <div class="form-group">
-              <label for="phoneNumber">Phone Number</label>
+              <label for="phoneNumber">Business Phone Number</label>
               <input type="tel" class="form-control" id="WhatIdo" placeholder="Phone">
             </div>
-            <div class="form-group">
-              <label class="text-bold" for="Password">Password</label>
-              <input type="password" class="form-control" id="Password" placeholder="Password">
-            </div>
+            
             <input type="button" id="next"  name="next" class=" btn btn-info" value="Next" />
           </fieldset>
           
@@ -64,25 +70,25 @@
               <label for="last_name">Last Name</label>
               <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name">
             </div>
-            
+            <div class="form-group">
+              <label for="first_name">Username</label>
+              <input type="text" class="form-control" name="first_name" id="user_name" placeholder="Username">
+            </div>
+            <div class="form-group">
+              <label class="text-bold" for="Password">Password</label>
+              <input type="password" class="form-control" id="Password" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <label class="text-bold" for="Password">Confirm password</label>
+              <input type="password" class="form-control" id="Password" placeholder="Password">
+            </div>
+
+
             <input type="button" id="prev" name="previous" class="btn btn-default" value="Previous" />
-            <input type="button" id="next"  name="next" class=" btn btn-info" value="Next" />
+            <input type="submit" id="next"  name="next" class=" btn btn-success" value="Become an Artisan" />
           </fieldset>
 
-          <fieldset style="display: none;">
-            <h2>Step 3: Add Contact Information</h2>
-            <div class="form-group">
-              <label for="mobile">Mobile</label>
-              <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Mobile Number">
-            </div>
-            <div class="form-group">
-              <label for="address">Contact Address</label>
-              <textarea class="form-control" name="address" placeholder="Communication Address"></textarea>
-            </div>
-
-            <input type="button" name="previous" id="prev" class="previous btn btn-default" value="Previous" />
-            <input type="submit" name="submit" class="submit btn btn-success" value="Submit" />
-          </fieldset>
+          
           <!-- <button type="submit" class="btn btn-gradient next action-button">Register</button> -->
         </form>
 
