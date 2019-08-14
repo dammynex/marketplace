@@ -18,11 +18,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $username_err = "Please enter your firstname.";
   } else {
     // Prepare a select statement
-    $sql = "SELECT id FROM members WHERE f_name = :firstname";
+    $sql = "SELECT id FROM members WHERE f_name = ?";
     
-    if($stmt = $pdo->prepare($sql)){
+    if($stmt = $mysqli->prepare($sql)){
       // Bind variables to the prepared statement as parameters
-      $stmt->bindParam(":firstname", $param_firstname, PDO::PARAM_STR);
+      $stmt->bind_param("s", $param_firstname);
       
       // Set parameters
       $param_firstname = trim($_POST["first_name"]);
@@ -40,11 +40,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $lastname_err = "Please enter your lastname.";
   } else{
     // Prepare a select statement
-    $sql = "SELECT id FROM members WHERE l_name = :lastname";
+    $sql = "SELECT id FROM members WHERE l_name = ?";
     
-    if($stmt = $pdo->prepare($sql)){
+    if($stmt = $mysqli->prepare($sql)){
       // Bind variables to the prepared statement as parameters
-      $stmt->bindParam(":lastname", $param_lastname, PDO::PARAM_STR);
+      $stmt->bind_param("s", $param_lastname);
       
       // Set parameters
       $param_lastname = trim($_POST["last_name"]);
@@ -58,59 +58,64 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   // Validate username
   if(empty(trim($_POST["username"]))){
     $username_err = "Please enter a username.";
-  } else{
+  } else {
     // Prepare a select statement
-    $sql = "SELECT id FROM members WHERE username = :username";
+    $sql = "SELECT id FROM members WHERE username = ?";
     
-    if($stmt = $pdo->prepare($sql)){
+    if($stmt = $mysqli->prepare($sql)){
       // Bind variables to the prepared statement as parameters
-      $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+      $stmt->bind_param("s", $param_username);
       
       // Set parameters
       $param_username = trim($_POST["username"]);
       
       // Attempt to execute the prepared statement
       if($stmt->execute()){
-        if($stmt->rowCount() == 1){
-          $username_err = "This username is already taken.";
+
+        // store result
+        $stmt->store_result();
+        
+        if($stmt->num_rows == 1){
+            $username_err = "This username is already taken.";
         } else{
-          $username = trim($_POST["username"]);
+            $username = trim($_POST["username"]);
         }
       } else {
-        echo "Oops! Something went wrong. Please try again later.";
-      }
+         
+            echo "Oops! Something went wrong. Please try again later.";
+        }
     }
-     
-    // Close statement
-    // unset($stmt);
-  }
-    
+  }      
+
   // Validate Email
   if(empty(trim($_POST["email"]))){
     $email_err = "Please enter your email.";
   } else {
     
     // Prepare a select statement
-    $sql = "SELECT id FROM members WHERE email = :email";
+    $sql = "SELECT id FROM members WHERE email = ?";
     
-    if($stmt = $pdo->prepare($sql)){
+    if($stmt = $mysqli->prepare($sql)){
+
       // Bind variables to the prepared statement as parameters
-      $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+      $stmt->bind_param("s", $param_email);
       
       // Set parameters
       $param_email = trim($_POST["email"]);
       
       // Attempt to execute the prepared statement
       if($stmt->execute()){
-
-        if($stmt->rowCount() == 1){
-          $email_err = "This email is already taken.";
-        } else {
-          $email = trim($_POST["email"]);
+        
+        // store result
+        $stmt->store_result();
+        
+        if($stmt->num_rows == 1){
+            $email_err = "This email is already taken.";
+        } else{
+            $email = trim($_POST["email"]);
         }
-
       } else {
-        echo "Oops! Something went wrong. Please try again later.";
+          echo "Oops! Something went wrong. Please try again later.";
       }
     }
      
@@ -123,24 +128,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $phone_err = "Please enter a phone number.";
   } else{
     // Prepare a select statement
-    $sql = "SELECT id FROM members WHERE phone = :phone";
+    $sql = "SELECT id FROM members WHERE phone = ?";
     
-    if($stmt = $pdo->prepare($sql)){
+    if($stmt = $mysqli->prepare($sql)){
+
       // Bind variables to the prepared statement as parameters
-      $stmt->bindParam(":phone", $param_phone, PDO::PARAM_STR);
+      $stmt->bind_param("s", $param_phone);
       
       // Set parameters
       $param_phone = trim($_POST["phone"]);
       
       // Attempt to execute the prepared statement
       if($stmt->execute()){
-        if($stmt->rowCount() == 1){
-            $phone_err = "This phone number is already in use.";
+        
+        // store result
+        $stmt->store_result();
+        
+        if($stmt->num_rows == 1){
+            $phone_err = "This phone number is already taken.";
         } else{
-            $phone = trim($_POST["username"]);
+            $phone = trim($_POST["phone"]);
         }
-      } else{
-        echo "Oops! Something went wrong. Please try again later.";
+      } else {
+          echo "Oops! Something went wrong. Please try again later.";
       }
     }
      
@@ -173,16 +183,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       
     // Prepare an insert statement
     $sql = "INSERT INTO `members`(`f_name`, `l_name`, `username`, `email`, `password`,`phone`, `role`)
-    VALUES (:firstname, :lastname, :email, :phone, :username, :role, :password)";
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
      
-    if($stmt = $pdo->prepare($sql)){
-        // Bind variables to the prepared statement as parameters
-        $stmt->bindParam(":firstname", $param_firstname, PDO::PARAM_STR);
-        $stmt->bindParam(":lastname", $param_lastname, PDO::PARAM_STR);
-        $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
-        $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-        $stmt->bindParam(":phone", $param_phone, PDO::PARAM_STR);
-        $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
+     if($stmt = $mysqli->prepare($sql)){
+
+      // Bind variables to the prepared statement as parameters
+      $stmt->bind_param("sssssss", $param_firstname, $param_lastname, $param_username, $param_email, $param_password, $param_phone, $role);
         
         // Set parameters
         $param_firstname = $firstname;
@@ -197,13 +203,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Attempt to execute the prepared statement
         if($stmt->execute()){
 
-            // Redirect to login page
-            // header("location: login.php");
-
-            var_dump($stmt);
             
-        } else{
-            echo "Something went wrong. Please try again later.";
+   
+        } else {
+            echo "Something went wrong. Issues from INSERT part";
         }
     }
        
