@@ -184,21 +184,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Prepare an insert statement
     $sql = "INSERT INTO `members`(`f_name`, `l_name`, `username`, `email`, `password`,`phone`, `role`)
     VALUES (?, ?, ?, ?, ?, ?, ?)";
-     
+        
+    // Set parameters
+    $param_firstname = $firstname;
+    $param_lastname = $lastname;
+    $param_username = $username;
+    $param_email = $email;
+    $param_phone = $phone;
+    $role = "client";
+    $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+	  
+    // Bind variables to the prepared statement as parameters
+    $stmt->bind_param("sssssss", $param_firstname, $param_lastname, $param_username, $param_email, $param_password, $param_phone, $role);
+	  
      if($stmt = $mysqli->prepare($sql)){
-
-      // Bind variables to the prepared statement as parameters
-      $stmt->bind_param("sssssss", $param_firstname, $param_lastname, $param_username, $param_email, $param_password, $param_phone, $role);
-        
-        // Set parameters
-        $param_firstname = $firstname;
-        $param_lastname = $lastname;
-        $param_username = $username;
-        $param_email = $email;
-        $param_phone = $phone;
-        $role = "client";
-        $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-        
         
         // Attempt to execute the prepared statement
         if($stmt->execute()){
